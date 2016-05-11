@@ -115,6 +115,10 @@ def p_atom_num(p):
     'atom : NUM'
     p[0] = p[1]
 
+def p_atom_float(p):
+    'atom : FLOAT'
+    p[0] = p[1]
+
 def p_atom_word(p):
     'atom : TEXT'
     p[0] = p[1]

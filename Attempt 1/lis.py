@@ -26,7 +26,7 @@ def standard_env():
         'begin':   lambda *x: x[-1],
         'car':     lambda x: x[0],
         'cdr':     lambda x: x[1:], 
-        'cons':    lambda x,y: [x] + y,
+        'cons':    lambda x,y: x + y if isinstance(x, list) else [x] + y,
         'eq?':     op.is_, 
         'equal?':  op.eq, 
         'length':  len, 
@@ -41,6 +41,7 @@ def standard_env():
         'number?': lambda x: isinstance(x, Number),   
         'procedure?': callable,
         'round':   round,
+        'sort':    sorted,
         'symbol?': lambda x: isinstance(x, Symbol),
     })
     return env
@@ -70,6 +71,7 @@ class Procedure(object):
 toReturn = None
 
 def eval(x, env=global_env):
+
     "Evaluate an expression in an environment."
     if isinstance(x, Symbol):      # variable reference
         return env.find(x)[x]
@@ -82,7 +84,7 @@ def eval(x, env=global_env):
         (_, test, conseq, alt) = x
         exp = (conseq if eval(test, env) else alt)
         return eval(exp, env)
-    elif x[0] == 'define':         # (define var exp)
+    elif x[0] == 'let':         # (let var exp)
         (_, var, exp) = x
         print x
         env[var] = eval(exp, env)
@@ -95,7 +97,7 @@ def eval(x, env=global_env):
     elif x[0] == 'exec':
         proc = eval(x[0], env)
         import re
-        exec(proc(re.sub(r"^'|'$", '', x[1])))
+        exec(proc(re.sub(r"^\"|\"$", '', x[1])))
         return toReturn
     else:                          # (proc arg...)
         proc = eval(x[0], env)

@@ -8,11 +8,12 @@ import ply.lex as lex
 
 # List of token names.   
 tokens = ('QUOTE', 'SIMB', 'NUM', 'LPAREN', 'RPAREN', \
-'NIL', 'TRUE', 'FALSE', 'TEXT')
+'NIL', 'TRUE', 'FALSE', 'TEXT', 'LET', 'FLOAT')
 
 # Reserved words
 reserved = {
     'nil' : 'NIL',
+    'let' : 'LET',
 }
 
 # Regular expression rules for simple tokens
@@ -22,23 +23,33 @@ t_QUOTE = r'\''
 t_TRUE = r'\#t'
 t_FALSE = r'\#f'
 
-def t_NUM(t):
-    r'\d+'
+def t_FLOAT(t):
+    r'-?[0-9]\d*(\.\d+)'
     try:
-        t.value = int(t.value)    
+        t.value = float(t.value)
     except ValueError:
-        print "Line %d: Number %s is too large!" % (t.lineno,t.value)
+        print "Line %d: Float Number %s is too large!" % (t.lineno,t.value)
         t.value = 0
     return t
 
+def t_NUM(t):
+    r'-?\d+' # added -? for negative numbers
+    try:
+        t.value = int(t.value)
+    except ValueError:
+        print "Line %d: Integer Number %s is too large!" % (t.lineno,t.value)
+        t.value = 0
+    return t
+
+
 def t_SIMB(t):
-    r'[a-zA-Z_+=\*\-][a-zA-Z0-9_+\*\-]*'
+    r'[a-zA-Z_+=\*\-/<>][a-zA-Z0-9_+\*\-=]*'
     t.type = reserved.get(t.value,'SIMB')    # Check for reserved words
     return t
 
 def t_TEXT(t):
-    r'\'[ -&,(-~]+\''
-    #r'\'[a-zA-Z0-9_+\*\- :,]*\''
+    r'\"[ -&,(-~]+\"'
+    #r'\'[a-zA-Z0-9_+\*\- \'.:;,]+\''
     t.type = reserved.get(t.value,'TEXT')    # Check for reserved words
     return t
 
