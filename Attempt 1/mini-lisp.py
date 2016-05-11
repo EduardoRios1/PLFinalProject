@@ -10,8 +10,8 @@ class MiniLisp(cmd.Cmd):     # See https://docs.python.org/2/library/cmd.html
 
     def __init__(self):
         cmd.Cmd.__init__(self)
-        self.prompt = "ml> "
-        self.intro  = "Bienvenido a MiniLisp"
+        self.prompt = "cs329e> "
+        self.intro  = "Welcome to our Final Project!"
 
     def do_exit(self, args):
         """Exits from the console"""
@@ -19,7 +19,7 @@ class MiniLisp(cmd.Cmd):     # See https://docs.python.org/2/library/cmd.html
 
     def do_EOF(self, args):
         """Exit on system end of file character"""
-        print "Good bye!"
+        print "See ya!"
         return self.do_exit(args)
 
     def do_help(self, args):
@@ -38,6 +38,7 @@ class MiniLisp(cmd.Cmd):     # See https://docs.python.org/2/library/cmd.html
         import lis
         r =  lis.eval(result)
         if r is not None: print r
+
         '''
         s = lisp_str(result)
         if s != 'nil':
