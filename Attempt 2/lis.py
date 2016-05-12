@@ -89,10 +89,24 @@ def eval(x, env=global_env):
         env[var] = eval(exp, env)
     elif x[0] == 'let':
         (_, var, exp) = x
-        try:
+        if isinstance(exp,int):
             env[var] = eval(exp, env)
-        except:
-            env[var] = exp[1:-1]
+        if isinstance(exp,str):
+            if '\(' in exp:
+                test= exp[exp.index('(')+1:exp.index(')')]
+                if ' ' in test:
+                    test = exp.split('\(')[1]
+                    test = test[:test.index(')')]
+                    test = test.split(' ')
+                    test = [test[1], test[0], test[2]]
+                    test = eval(test, env)
+                    exp = exp.replace(exp[exp.index('\('):exp.index(')')+1], str(test))
+                else:
+                    exp = exp.replace(exp[exp.index('\('):exp.index(')')+1], str(env[exp[exp.index('(')+1]]))
+                env[var] = exp
+            else:
+                env[var] = exp[1:-1]
+            print env[var]
     elif x[0] == 'set!':           # (set! var exp)
         (_, var, exp) = x
         env.find(var)[var] = eval(exp, env)
