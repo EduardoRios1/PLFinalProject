@@ -5,6 +5,7 @@
     <ignored path="Final_Project_swift.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
+    <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -737,12 +738,12 @@
       <created>1463079265652</created>
       <option name="number" value="Default" />
       <updated>1463079265652</updated>
-      <workItem from="1463079269395" duration="38000" />
+      <workItem from="1463079269395" duration="89000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="38000" />
+    <option name="totallyTimeSpent" value="89000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1" y="23" width="1429" height="852" extended-state="0" />
