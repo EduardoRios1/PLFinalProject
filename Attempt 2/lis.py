@@ -102,7 +102,7 @@ def eval(x, env=global_env):
                     test = eval(test, env)
                     exp = exp.replace(exp[exp.index('\('):exp.index(')')+1], str(test))
                 else:
-                    exp = exp.replace(exp[exp.index('\('):exp.index(')')+1], str(env[exp[exp.index('(')+1]]))
+                    exp = exp.replace(exp[exp.index('\('):exp.index(')')+1], str(env[exp[exp.index('(')+1:exp.index(')')]]))
                 env[var] = exp
             else:
                 env[var] = exp[1:-1]
