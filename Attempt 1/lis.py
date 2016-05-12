@@ -102,11 +102,11 @@ def eval(x, env=global_env):
         (_, parms, body) = x
         return Procedure(parms, body, env)
     elif x[0] == 'comp':
-        (_, lists) = x
+        (_, lists, num) = x
         #The first eval evaluates the outer list
         #The second eval is then caught when x[0] is a list and then removes all the quotes
         lists = eval(eval(lists,env),env)
-        return [[i[0]] for i in lists]
+        return [[i[num]] for i in lists]
     elif x[0] == 'exec':
         proc = eval(x[0], env)
         import re
