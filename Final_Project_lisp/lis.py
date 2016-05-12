@@ -18,27 +18,20 @@ def standard_env():
     env = Env()
     env.update(vars(math)) # sin, cos, sqrt, pi, ...
     env.update({
-        '+':op.add, '-':op.sub, '*':op.mul, '/':op.div, 
-        '>':op.gt, '<':op.lt, '>=':op.ge, '<=':op.le, '=':op.eq, 
+        '+':op.add, '-':op.sub, '*':op.mul, '/':op.div,
+        '>':op.gt, '<':op.lt, '>=':op.ge, '<=':op.le, '=':op.eq,
         'abs':     abs,
-        'append':  op.add,  
-        'apply':   apply,
-        'begin':   lambda *x: x[-1],
         'car':     lambda x: x[0],
-        'cdr':     lambda x: x[1:], 
+        'cdr':     lambda x: x[1:],
         'cons':    lambda x,y: x + y if isinstance(x, list) else [x] + y,
-        'eq?':     op.is_, 
-        'equal?':  op.eq, 
-        'length':  len, 
-        'list':    lambda *x: list(x), 
+        'list':    lambda *x: list(x),
         'list?':   lambda x: isinstance(x,list),
         'exec':    lambda x: eval(compile(x,'None','single')),
         'map':     map,
         'max':     max,
         'min':     min,
-        'not':     op.not_,
-        'null?':   lambda x: x == [], 
-        'number?': lambda x: isinstance(x, Number),   
+        'null?':   lambda x: x == [],
+        'number?': lambda x: isinstance(x, Number),
         'procedure?': callable,
         'round':   round,
         'sort':    sorted,
@@ -63,7 +56,7 @@ class Procedure(object):
     "A user-defined Scheme procedure."
     def __init__(self, parms, body, env):
         self.parms, self.body, self.env = parms, body, env
-    def __call__(self, *args): 
+    def __call__(self, *args):
         return eval(self.body, Env(self.parms, args, self.env))
 
 ################ eval
@@ -95,9 +88,6 @@ def eval(x, env=global_env):
             env[var] = eval(exp, env)
         except:
             env[var] = exp
-    elif x[0] == 'set!':           # (set! var exp)
-        (_, var, exp) = x
-        env.find(var)[var] = eval(exp, env)
     elif x[0] == 'lambda':         # (lambda (var...) body)
         (_, parms, body) = x
         return Procedure(parms, body, env)
