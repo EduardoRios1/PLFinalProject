@@ -8,12 +8,11 @@ import ply.lex as lex
 
 # List of token names.   
 tokens = ('QUOTE', 'SIMB', 'NUM', 'LPAREN', 'RPAREN', \
-'NIL', 'TRUE', 'FALSE', 'TEXT', 'LET', 'FLOAT')
+'NIL', 'TRUE', 'FALSE', 'TEXT', 'FLOAT')
 
 # Reserved words
 reserved = {
     'nil' : 'NIL',
-    'let' : 'LET',
 }
 
 # Regular expression rules for simple tokens

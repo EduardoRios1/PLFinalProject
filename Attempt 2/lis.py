@@ -76,12 +76,7 @@ def eval(x, env=global_env):
     if isinstance(x, Symbol):      # variable reference
         return env.find(x)[x]
     elif not isinstance(x, List):  # constant literal
-        return x
-    elif isinstance(x[0], List):
-        p = []
-        for i in x:
-            p.append(i[1])
-        return p
+        return x                
     elif x[0] == 'quote':          # (quote exp)
         (_, exp) = x
         return exp
@@ -89,24 +84,21 @@ def eval(x, env=global_env):
         (_, test, conseq, alt) = x
         exp = (conseq if eval(test, env) else alt)
         return eval(exp, env)
-    elif x[0] == 'let':         # (let var exp)
+    elif x[0] == 'var':         # (let var exp)
+        (_, var, exp) = x
+        env[var] = eval(exp, env)
+    elif x[0] == 'let':
         (_, var, exp) = x
         try:
             env[var] = eval(exp, env)
         except:
-            env[var] = exp
+            env[var] = exp[1:-1]
     elif x[0] == 'set!':           # (set! var exp)
         (_, var, exp) = x
         env.find(var)[var] = eval(exp, env)
     elif x[0] == 'lambda':         # (lambda (var...) body)
         (_, parms, body) = x
         return Procedure(parms, body, env)
-    elif x[0] == 'comp':
-        (_, lists) = x
-        #The first eval evaluates the outer list
-        #The second eval is then caught when x[0] is a list and then removes all the quotes
-        lists = eval(eval(lists,env),env)
-        return [[i[0]] for i in lists]
     elif x[0] == 'exec':
         proc = eval(x[0], env)
         import re
@@ -115,7 +107,4 @@ def eval(x, env=global_env):
     else:                          # (proc arg...)
         proc = eval(x[0], env)
         args = [eval(exp, env) for exp in x[1:]]
-        try:
-            return eval(proc(*args))
-        except:
-            return proc(*args)
+        return proc(*args)

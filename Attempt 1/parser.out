@@ -1,9 +1,5 @@
 Created by PLY version 3.8 (http://www.dabeaz.com/ply)
 
-Unused terminals:
-
-    LET
-
 Grammar
 
 Rule 0     S' -> exp
@@ -34,7 +30,6 @@ Terminals, with rules where they appear
 
 FALSE                : 21
 FLOAT                : 17
-LET                  : 
 LPAREN               : 5 13
 NIL                  : 22
 NUM                  : 16
@@ -646,4 +641,5 @@ state 27
     TEXT            reduce using rule 13 (call -> LPAREN SIMB items RPAREN .)
     NIL             reduce using rule 13 (call -> LPAREN SIMB items RPAREN .)
     QUOTE           reduce using rule 13 (call -> LPAREN SIMB items RPAREN .)
-    LPAREN          reduce using rule 13 (call -> LPA
+    LPAREN          reduce using rule 13 (call -> LPAREN SIMB items RPAREN .)
+    TRUE            reduce 

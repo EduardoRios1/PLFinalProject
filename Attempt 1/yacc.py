@@ -12,32 +12,6 @@ name = {}
 global ast
 ast = []
 
-
-def _print(l):
-    print lisp_str(l[0])
-
-name['print'] = _print
-
-# Utilities functions
-
-def lisp_str(l):
-    if type(l) == type([]):
-        if not l:
-            return "()"
-        r = "("
-        for i in l[:-1]:
-            r += lisp_str(i) + " "
-        r += lisp_str(l[-1]) + ")"
-        return r
-    elif l is True:
-        return "#t"
-    elif l is False:
-        return "#f"
-    elif l is None:
-        return 'nil'
-    else:
-        return str(l)
-
 # BNF
 
 def p_exp_atom(p):
@@ -84,7 +58,7 @@ def p_item_list(p):
 def p_item_list(p):
     'item : quoted_list'
     p[0] = p[1]
-        
+
 def p_item_call(p):
     'item : call'
     p[0] = p[1]
@@ -123,7 +97,7 @@ def p_atom_word(p):
     'atom : TEXT'
     p[0] = p[1]
 
-def p_atom_empty(p): 
+def p_atom_empty(p):
     'atom :'
     pass
 
